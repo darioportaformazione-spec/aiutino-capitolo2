@@ -1,0 +1,68 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIutino — Capitolo 2</title>
+<style>body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:28px 20px;line-height:1.5;color:#202124}h1{font-size:32px;margin-bottom:4px}.sub{color:#666}label{display:block;font-weight:700;margin:18px 0 7px}textarea,input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #bbb;border-radius:8px;font-size:16px}textarea{min-height:90px}button{margin-top:22px;padding:13px 18px;border:0;border-radius:8px;background:#111;color:white;font-size:16px;cursor:pointer}.note{background:#f5f5f5;padding:14px;border-radius:8px;margin:18px 0}#msg{margin-top:12px;font-weight:700}</style></head>
+<body><h1>AIutino — Capitolo 2</h1><p class="sub">Preparati al primo contatto con il potenziale cliente.</p>
+<div class="note">Inserisci le informazioni che già possiedi. L’AIutino le utilizzerà insieme alla ricerca web per preparare tre possibili pitch.</div>
+<label>IO</label><textarea id="io" placeholder="Inserisci ruolo, cosa fai, cosa è importante per te nel tuo modo di lavorare"></textarea>
+<label>POTENZIALE CLIENTE</label><input id="cliente" placeholder="Ragione sociale, categoria e località">
+<label>SITO WEB</label><input id="sito" placeholder="https://...">
+<label>PRIMO CONTATTO / INFORMAZIONI GIÀ EMERSE</label><textarea id="contatto" placeholder="Cosa ha raccontato il cliente, informazioni raccolte e qualsiasi elemento già conosciuto"></textarea>
+<label>COSA HO PREPARATO PER LUI</label><textarea id="preparato" placeholder="Cosa hai preparato o cosa vuoi portare all'incontro"></textarea>
+<button onclick="copyPrompt()">COPIA IL PROMPT COMPLETO</button><div id="msg"></div>
+<script>
+const template = `IO: [inserisci ruolo, cosa fai, cosa è importante per te nel tuo modo di lavorare]
+POTENZIALE CLIENTE: [inserisci RAGIONE SOCIALE, CATEGORIA e LOCALITÀ]
+SITO WEB: [inserisci il sito web del potenziale cliente]
+PRIMO CONTATTO / INFORMAZIONI GIÀ EMERSE: [inserisci ciò che il cliente ha raccontato, le informazioni raccolte durante un precedente contatto e qualsiasi elemento già conosciuto]
+COSA HO PREPARATO PER LUI: [inserisci ciò che hai preparato o ciò che vuoi portare all'incontro]
+
+Preparami ESATTAMENTE 3 diversi PITCH per il primo contatto. Il punto di partenza deve essere tutto ciò che già sappiamo del cliente, compreso ciò che è emerso nel primo contatto e ciò che hai preparato per lui. Considera insieme:
+- ciò che è emerso nel primo contatto;
+- ciò che trovi sul sito web;
+- ciò che puoi verificare attraverso altre fonti pubbliche;
+- ciò che hai preparato per lui.
+
+Il web deve servire ad approfondire e arricchire ciò che già sappiamo, non a ignorare il primo contatto.
+
+Ogni pitch deve seguire sempre questo frame:
+IO → TU → NOI “FORSE”
+
+IO:
+Presenta brevemente chi sono, cosa faccio e cosa è importante per me nel mio modo di lavorare. Nel passaggio IO non usare formulazioni negative.
+
+TU:
+Partendo dalle informazioni già emerse e dalla ricerca sull'attività, trova un elemento specifico, autentico e verificabile che possa diventare un apprezzamento spontaneo e sincero. Collega, quando possibile, ciò che il cliente ha già raccontato con ciò che hai scoperto sul web. Inserisci naturalmente anche ciò che hai preparato per lui.
+
+NON FINITO:
+Utilizza ciò che hai preparato per lui come “non finito”. Fai percepire che hai dedicato tempo a conoscerlo e che hai preparato qualcosa di specifico, ma non spiegare tutto. Lascia una parte da scoprire durante la conversazione. Il non finito deve essere concreto, naturale e legato a ciò che hai realmente preparato o scoperto.
+
+NOI “FORSE”:
+Fai capire che ciò che il venditore propone potrebbe essere utile, ma non necessariamente allo stesso modo per tutti. Non proporre prodotti, servizi o soluzioni. Non presentare elementi negativi o migliorabili. Prima di parlare di qualsiasi soluzione, porta la conversazione verso la conoscenza del cliente. Chiedi il permesso di fare qualche domanda. Il passaggio deve terminare con una richiesta naturale di consenso, per esempio: «Se è d'accordo, le faccio qualche domanda?»
+
+REGOLE:
+- Crea ESATTAMENTE 3 pitch.
+- Devono essere brevi, naturali e facili da dire a voce.
+- Ogni pitch deve partire da un elemento diverso.
+- Ogni pitch deve utilizzare ciò che hai preparato per lui in modo diverso.
+- Ogni pitch deve contenere un vero NON FINITO.
+- Il non finito non deve essere una frase generica.
+- Considera sempre ciò che è già emerso nel primo contatto.
+- Non fare domande su informazioni che il cliente ha già fornito.
+- Usa solo informazioni verificabili.
+- Indica sempre la fonte delle informazioni utilizzate.
+- Non inventare problemi, bisogni o desideri.
+- Non trasformare ipotesi in fatti.
+- Non anticipare la soluzione.
+- Non usare un linguaggio commerciale o aggressivo.
+- Il tono deve generare curiosità e dialogo.
+- Non spiegare il metodo.
+- Mantieni sempre il frame IO → TU → NOI “FORSE”.
+
+Restituisci esclusivamente:
+PITCH 1
+PITCH 2
+PITCH 3`;
+function copyPrompt(){
+let p=template.replace("[inserisci ruolo, cosa fai, cosa è importante per te nel tuo modo di lavorare]",document.getElementById('io').value).replace("[inserisci RAGIONE SOCIALE, CATEGORIA e LOCALITÀ]",document.getElementById('cliente').value).replace("[inserisci il sito web del potenziale cliente]",document.getElementById('sito').value).replace("[inserisci ciò che il cliente ha raccontato, le informazioni raccolte durante un precedente contatto e qualsiasi elemento già conosciuto]",document.getElementById('contatto').value).replace("[inserisci ciò che hai preparato o ciò che vuoi portare all'incontro]",document.getElementById('preparato').value);
+navigator.clipboard.writeText(p).then(()=>document.getElementById('msg').textContent="Prompt copiato. Ora incollalo in ChatGPT.");
+}</script></body></html>
