@@ -98,6 +98,12 @@ summary::-webkit-details-marker{display:none}
   .prompt{font-size:10.5px;padding:11px;margin:0 8px 8px}
   .note{font-size:9.5px;margin-top:10px}
 }
+
+.prompt-box{margin:24px 0;padding:20px;border-radius:18px;background:#f5f5f5;border:1px solid #ddd}
+.prompt-title{font-weight:800;font-size:18px;margin-bottom:12px}
+#prompt{width:100%;min-height:420px;box-sizing:border-box;padding:16px;border-radius:12px;border:1px solid #ccc;background:#fff;font-family:Arial,sans-serif;font-size:14px;line-height:1.5;resize:vertical}
+#copyPrompt{margin-top:12px}
+
 </style>
 </head>
 <body>
@@ -145,7 +151,14 @@ summary::-webkit-details-marker{display:none}
     <textarea id="preparato" placeholder="Scrivi cosa hai preparato..."></textarea>
   </div>
 
-  <button id="copyBtn">▣ &nbsp; PREPARA E COPIA IL PROMPT</button>
+  
+<div class="prompt-box" id="promptBox" style="display:none;">
+  <div class="prompt-title">IL TUO PROMPT</div>
+  <textarea id="prompt" readonly></textarea>
+  <button type="button" id="copyPrompt">COPIA IL PROMPT</button>
+</div>
+
+<button id="copyBtn">▣ &nbsp; PREPARA E COPIA IL PROMPT</button>
 
   <section class="after">
     <div class="after-title">COSA FARE DOPO</div>
