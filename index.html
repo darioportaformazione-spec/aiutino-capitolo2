@@ -99,10 +99,7 @@ summary::-webkit-details-marker{display:none}
   .note{font-size:9.5px;margin-top:10px}
 }
 
-.prompt-box{margin:24px 0;padding:20px;border-radius:18px;background:#f5f5f5;border:1px solid #ddd}
-.prompt-title{font-weight:800;font-size:18px;margin-bottom:12px}
-#prompt{width:100%;min-height:420px;box-sizing:border-box;padding:16px;border-radius:12px;border:1px solid #ccc;background:#fff;font-family:Arial,sans-serif;font-size:14px;line-height:1.5;resize:vertical}
-#copyPrompt{margin-top:12px}
+
 
 </style>
 </head>
@@ -127,7 +124,7 @@ summary::-webkit-details-marker{display:none}
     <div class="book-icon">▱</div>
     <div>
       <h2>AIutino — Capitolo 2</h2>
-      <p class="intro">Prepara <strong>3 pitch</strong> per il primo appuntamento con il metodo <strong>IO → TU → NOI “FORSE”</strong>, partendo da ciò che conosci e da ciò che hai preparato per il cliente.</p>
+      <p class="intro">Prepara <strong>3 pitch</strong> per il primo appuntamento con il metodo <strong>IO → TU → NOI “FORSE”</strong>, partendo dalle informazioni che vuoi fornire.</p>
     </div>
   </div>
 
@@ -151,11 +148,6 @@ summary::-webkit-details-marker{display:none}
     <textarea id="preparato" placeholder="Scrivi cosa hai preparato..."></textarea>
   </div>
 
-  
-<div class="prompt-box" id="promptBox" style="display:none;">
-  <div class="prompt-title">IL TUO PROMPT</div>
-  <textarea id="prompt" readonly></textarea>
-  <button type="button" id="copyPrompt">COPIA IL PROMPT</button>
 </div>
 
 <button id="copyBtn">▣ &nbsp; PREPARA E COPIA IL PROMPT</button>
@@ -191,26 +183,25 @@ const btn = document.getElementById('copyBtn');
 
 function getPrompt() {
   return template
-    .replaceAll('[IO]', fields.io.value.trim() || '[DA INSERIRE]')
-    .replaceAll('[POTENZIALE_CLIENTE]', fields.cliente.value.trim() || '[DA INSERIRE]')
-    .replaceAll('[PRIMO_CONTATTO]', fields.contatto.value.trim() || '[NESSUNA INFORMAZIONE INSERITA]')
-    .replaceAll('[COSA_HO_PREPARATO]', fields.preparato.value.trim() || '[NESSUN MATERIALE INSERITO]');
+    .replaceAll('[IO]', fields.io.value.trim())
+    .replaceAll('[POTENZIALE_CLIENTE]', fields.cliente.value.trim())
+    .replaceAll('[PRIMO_CONTATTO]', fields.contatto.value.trim())
+    .replaceAll('[COSA_HO_PREPARATO]', fields.preparato.value.trim());
 }
 function refresh() { preview.textContent = getPrompt(); }
 Object.values(fields).forEach(el => el.addEventListener('input', refresh));
 
 btn.addEventListener('click', async () => {
-  if (!fields.io.value.trim() || !fields.cliente.value.trim() || !fields.preparato.value.trim()) {
-    alert('Inserisci almeno IO, POTENZIALE CLIENTE e COSA HO PREPARATO PER LUI.');
-    return;
-  }
   const p = getPrompt();
   try {
     await navigator.clipboard.writeText(p);
   } catch(e) {
     const t = document.createElement('textarea');
-    t.value = p; document.body.appendChild(t); t.select();
-    document.execCommand('copy'); t.remove();
+    t.value = p;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand('copy');
+    t.remove();
   }
   btn.textContent = '✓  PROMPT COPIATO';
   setTimeout(() => btn.textContent = '▣  PREPARA E COPIA IL PROMPT', 1800);
