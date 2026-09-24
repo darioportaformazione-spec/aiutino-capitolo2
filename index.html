@@ -160,166 +160,59 @@ summary::-webkit-details-marker{display:none}
       <div class="step"><div class="num">3</div><div><strong>Incolla e invia</strong><span>Nella chat incolla il prompt, invia e... buona vendita.</span></div></div>
     </div>
   </section>
-
-  <details>
-    <summary>▶ &nbsp; Visualizza il prompt</summary>
-    <div class="prompt" id="preview"></div>
-  </details>
-
-  <div class="note">ⓘ &nbsp; L’AIutino è costruito per preparare il primo appuntamento senza sostituire il venditore.</div>
+<div class="note">ⓘ &nbsp; L’AIutino è costruito per preparare il primo appuntamento senza sostituire il venditore.</div>
 </main>
 </div>
 
 <script>
-const template = `Agisci come un formatore commerciale esperto.
+const template = new TextDecoder().decode(
+  Uint8Array.from(atob("QWdpc2NpIGNvbWUgdW4gZm9ybWF0b3JlIGNvbW1lcmNpYWxlIGVzcGVydG8uCgpJbCB0dW8gY29tcGl0byDDqCBhaXV0YXJlIGlsIHZlbmRpdG9yZSBhIHByZXBhcmFyZSBpbCBwcmltbyBhcHB1bnRhbWVudG8gY29uIHVuIHBvdGVuemlhbGUgY2xpZW50ZSB1dGlsaXp6YW5kbyBpbCBtZXRvZG8gU0xJTkcuCgpEQVRJIERFTCBWRU5ESVRPUkUKCklPOgpbSU9dCgpEQVRJIERFTCBQT1RFTlpJQUxFIENMSUVOVEUKClBPVEVOWklBTEUgQ0xJRU5URToKW1BPVEVOWklBTEVfQ0xJRU5URV0KClBSSU1PIENPTlRBVFRPIC8gSU5GT1JNQVpJT05JIEdJw4AgRU1FUlNFOgpbUFJJTU9fQ09OVEFUVE9dCgpDT1NBIEhPIFBSRVBBUkFUTyBQRVIgTFVJOgpbQ09TQV9IT19QUkVQQVJBVE9dCgpPQklFVFRJVk8KClByZXBhcmEgRVNBVFRBTUVOVEUgMyBwaXRjaCBicmV2aSwgbmF0dXJhbGkgZSBwcm9udW5jaWFiaWxpIGEgdm9jZSwgZGEgdXRpbGl6emFyZSBuZWkgcHJpbWkgbW9tZW50aSBkZWxsJ2FwcHVudGFtZW50by4KCkkgdHJlIHBpdGNoIGRldm9ubyBzZWd1aXJlIGlsIGZyYW1lOgoKSU8g4oaSIFRVIOKGkiBOT0kg4oCcRk9SU0XigJ0KCklPClByZXNlbnRhIGluIG1vZG8gbmF0dXJhbGUgaWwgdmVuZGl0b3JlOiBjb21lIGxhdm9yYSwgdmFsb3JpLCBwcmlvcml0w6AsIG1ldG9kbyBvIG1vZG8gZGkgYWZmcm9udGFyZSBpbCBsYXZvcm8uCk5vbiBmYXJlIHVuYSBwcmVzZW50YXppb25lIGF6aWVuZGFsZSBsdW5nYS4KTm9uIHVzYXJlIGxpbmd1YWdnaW8gY29tbWVyY2lhbGUgbyBhdXRvY2VsZWJyYXRpdm8uCgpUVQpQb3J0YSBsJ2F0dGVuemlvbmUgc3VsIHBvdGVuemlhbGUgY2xpZW50ZSB1dGlsaXp6YW5kbyB1biBlbGVtZW50byBjb25jcmV0byBlbWVyc28gZGFsIHByaW1vIGNvbnRhdHRvLCBkYSBmb250aSBwdWJibGljaGUgbyBkYWwgbWF0ZXJpYWxlIHByZXBhcmF0by4KTCdhcHByZXp6YW1lbnRvIGRldmUgZXNzZXJlIHNwZWNpZmljbywgY3JlZGliaWxlIGUgdmVyaWZpY2FiaWxlLgpOb24gdXNhcmUgY29tcGxpbWVudGkgZ2VuZXJpY2kuCgpOT04gRklOSVRPCk9nbmkgcGl0Y2ggZGV2ZSBjb250ZW5lcmUgdW4gdmVybyBlbGVtZW50byDigJxub24gZmluaXRv4oCdOiBxdWFsY29zYSBjaGUgaWwgdmVuZGl0b3JlIGhhIG9zc2VydmF0bywgcHJlcGFyYXRvIG8gaW5pemlhdG8gYSBlbGFib3JhcmUsIG1hIGNoZSByaWNoaWVkZSBpbCBjb25mcm9udG8gY29uIGlsIGNsaWVudGUgcGVyIGVzc2VyZSBjb21wbGV0YXRvLgpJbCDigJxub24gZmluaXRv4oCdIGRldmUgY3JlYXJlIG5hdHVyYWxtZW50ZSBjdXJpb3NpdMOgIGUgYXBlcnR1cmEgYWwgZGlhbG9nbywgc2VuemEgdHJhc2Zvcm1hcnNpIGluIHVuYSBwcmVzZW50YXppb25lIGRlbGxhIHNvbHV6aW9uZS4KCk5PSSDigJxGT1JTReKAnQpDaGl1ZGkgaWwgcGl0Y2ggc2VuemEgY3JlYXJlIHByZXNzaW9uZSBlIHNlbnphIGNoaWVkZXJlIGFsIGNsaWVudGUgdW4gaW1wZWdubyBjb21tZXJjaWFsZS4KTCdvYmlldHRpdm8gw6ggb3R0ZW5lcmUgaWwgY29uc2Vuc28gYSBmYXJlIHF1YWxjaGUgZG9tYW5kYSBlIGFwcHJvZm9uZGlyZS4KCkkgMyBQSVRDSAoKUElUQ0ggMQpEZXZlIHBhcnRpcmUgZGEgdW4gZWxlbWVudG8gc3BlY2lmaWNvIGRlbCBwb3RlbnppYWxlIGNsaWVudGUgZSB1dGlsaXp6YXJlIGlsIG1hdGVyaWFsZSBwcmVwYXJhdG8gaW4gdW4gcHJpbW8gbW9kby4KClBJVENIIDIKRGV2ZSBwYXJ0aXJlIGRhIHVuIGVsZW1lbnRvIGRpdmVyc28gZSB1dGlsaXp6YXJlIGlsIG1hdGVyaWFsZSBwcmVwYXJhdG8gaW4gdW4gc2Vjb25kbyBtb2RvLgoKUElUQ0ggMwpEZXZlIHBhcnRpcmUgZGEgdW4gZWxlbWVudG8gZGl2ZXJzbyBlIHV0aWxpenphcmUgaWwgbWF0ZXJpYWxlIHByZXBhcmF0byBpbiB1biB0ZXJ6byBtb2RvLgoKSSB0cmUgcGl0Y2ggZGV2b25vIGVzc2VyZSByZWFsbWVudGUgZGl2ZXJzaSB0cmEgbG9ybywgbm9uIHNlbXBsaWNpIHJpc2NyaXR0dXJlIGRlbGxvIHN0ZXNzbyB0ZXN0by4KCkZPTlRJCgpQZXIgb2duaSBlbGVtZW50byBzcGVjaWZpY28gdXRpbGl6emF0byBpbmRpY2Egc2VtcHJlIGxhIGZvbnRlIHRyYSBwYXJlbnRlc2ksIHBlciBlc2VtcGlvOgooRm9udGU6IHByaW1vIGNvbnRhdHRvKQooRm9udGU6IG1hdGVyaWFsZSBwcmVwYXJhdG8pCihGb250ZTogZm9udGUgcHViYmxpY2EpCgpVdGlsaXp6YSBlc2NsdXNpdmFtZW50ZSBpbmZvcm1hemlvbmkgdmVyaWZpY2FiaWxpIHByZXNlbnRpIG5laSBkYXRpIGZvcm5pdGkgbyBuZWxsZSBmb250aSBkaXNwb25pYmlsaS4KClNlIGlsIGNhbXBvIOKAnFBSSU1PIENPTlRBVFRPIC8gSU5GT1JNQVpJT05JIEdJw4AgRU1FUlNF4oCdIMOoIHZ1b3RvLCBub24gaW52ZW50YXJlIGluZm9ybWF6aW9uaSBlIG5vbiBmYXJlIHJpZmVyaW1lbnRvIGFsIGZhdHRvIGNoZSBpbCBjYW1wbyDDqCB2dW90bzogbGF2b3JhIGVzY2x1c2l2YW1lbnRlIGNvbiBnbGkgYWx0cmkgZGF0aSBkaXNwb25pYmlsaS4KClJFR09MRSBJTVBPUlRBTlRJCgotIE5vbiBpbnZlbnRhcmUgaW5mb3JtYXppb25pLgotIE5vbiB0cmFzZm9ybWFyZSBpcG90ZXNpIGluIGZhdHRpLgotIE5vbiBhbnRpY2lwYXJlIHByb2JsZW1pLCBiaXNvZ25pIG8gc29sdXppb25pIGNoZSBpbCBjbGllbnRlIG5vbiBoYSBlc3ByZXNzby4KLSBOb24gcHJlc2VudGFyZSBlbGVtZW50aSBuZWdhdGl2aSwgY3JpdGljaXTDoCBvIGFzcGV0dGkgbWlnbGlvcmFiaWxpIGNvbWUgYXJnb21lbnRvIGRpIGFwZXJ0dXJhLgotIE5vbiBwcm9wb3JyZSBkaXJldHRhbWVudGUgcHJvZG90dGkgbyBzZXJ2aXppLgotIE5vbiB1c2FyZSBsaW5ndWFnZ2lvIGFnZ3Jlc3Npdm8gbyBkYSB2ZW5kaXRvcmUuCi0gTm9uIHNwaWVnYXJlIGlsIG1ldG9kbyBTTElORyBhbCB2ZW5kaXRvcmUuCi0gTm9uIGRlc2NyaXZlcmUgbGUgcmVnb2xlIGNoZSBzdGFpIGFwcGxpY2FuZG8uCi0gSSBwaXRjaCBkZXZvbm8gZXNzZXJlIGJyZXZpLCBuYXR1cmFsaSBlIG9yYWxpLgotIE9nbmkgcGl0Y2ggZGV2ZSBhdmVyZSB1biBwdW50byBkaSBwYXJ0ZW56YSBkaXZlcnNvLgotIE9nbmkgcGl0Y2ggZGV2ZSB1dGlsaXp6YXJlIGlsIG1hdGVyaWFsZSBwcmVwYXJhdG8gaW4gbW9kbyBkaXZlcnNvLgotIE9nbmkgcGl0Y2ggZGV2ZSBjb250ZW5lcmUgdW4gdmVybyDigJxub24gZmluaXRv4oCdLgotIExhIGNoaXVzdXJhIGRldmUgcG9ydGFyZSBuYXR1cmFsbWVudGUgYWxsYSBwb3NzaWJpbGl0w6AgZGkgZmFyZSBkb21hbmRlLCBjb24gdW5hIGZvcm11bGEgY29tZToKICDCq1NlIMOoIGQnYWNjb3JkbywgbGUgZmFjY2lvIHF1YWxjaGUgZG9tYW5kYT/CuwoKRk9STUFUTyBPQkJMSUdBVE9SSU8KClJlc3RpdHVpc2NpIEVTQ0xVU0lWQU1FTlRFOgoKUElUQ0ggMQoKW1RFU1RPIERFTCBQSVRDSF0KClBJVENIIDIKCltURVNUTyBERUwgUElUQ0hdCgpQSVRDSCAzCgpbVEVTVE8gREVMIFBJVENIXQoKTm9uIGFnZ2l1bmdlcmUgaW50cm9kdXppb25pLCBzcGllZ2F6aW9uaSwgY29uY2x1c2lvbmksIHZhbHV0YXppb25pIG8gYWx0cmUgc2V6aW9uaS4="), function(c) { return c.charCodeAt(0); })
+);
 
-Il tuo compito è aiutare il venditore a preparare il primo appuntamento con un potenziale cliente utilizzando il metodo SLING.
-
-DATI DEL VENDITORE
-
-IO:
-[IO]
-
-DATI DEL POTENZIALE CLIENTE
-
-POTENZIALE CLIENTE:
-[POTENZIALE_CLIENTE]
-
-PRIMO CONTATTO / INFORMAZIONI GIÀ EMERSE:
-[PRIMO_CONTATTO]
-
-COSA HO PREPARATO PER LUI:
-[COSA_HO_PREPARATO]
-
-OBIETTIVO
-
-Prepara ESATTAMENTE 3 pitch brevi, naturali e pronunciabili a voce, da utilizzare nei primi momenti dell'appuntamento.
-
-I tre pitch devono seguire il frame:
-
-IO → TU → NOI “FORSE”
-
-IO
-Presenta in modo naturale il venditore: come lavora, valori, priorità, metodo o modo di affrontare il lavoro.
-Non fare una presentazione aziendale lunga.
-Non usare linguaggio commerciale o autocelebrativo.
-
-TU
-Porta l'attenzione sul potenziale cliente utilizzando un elemento concreto emerso dal primo contatto, da fonti pubbliche o dal materiale preparato.
-L'apprezzamento deve essere specifico, credibile e verificabile.
-Non usare complimenti generici.
-
-NON FINITO
-Ogni pitch deve contenere un vero elemento “non finito”: qualcosa che il venditore ha osservato, preparato o iniziato a elaborare, ma che richiede il confronto con il cliente per essere completato.
-Il “non finito” deve creare naturalmente curiosità e apertura al dialogo, senza trasformarsi in una presentazione della soluzione.
-
-NOI “FORSE”
-Chiudi il pitch senza creare pressione e senza chiedere al cliente un impegno commerciale.
-L'obiettivo è ottenere il consenso a fare qualche domanda e approfondire.
-
-I 3 PITCH
-
-PITCH 1
-Deve partire da un elemento specifico del potenziale cliente e utilizzare il materiale preparato in un primo modo.
-
-PITCH 2
-Deve partire da un elemento diverso e utilizzare il materiale preparato in un secondo modo.
-
-PITCH 3
-Deve partire da un elemento diverso e utilizzare il materiale preparato in un terzo modo.
-
-I tre pitch devono essere realmente diversi tra loro, non semplici riscritture dello stesso testo.
-
-FONTI
-
-Per ogni elemento specifico utilizzato indica sempre la fonte tra parentesi, per esempio:
-(Fonte: primo contatto)
-(Fonte: materiale preparato)
-(Fonte: fonte pubblica)
-
-Utilizza esclusivamente informazioni verificabili presenti nei dati forniti o nelle fonti disponibili.
-
-Se il campo “PRIMO CONTATTO / INFORMAZIONI GIÀ EMERSE” è vuoto, non inventare informazioni e non fare riferimento al fatto che il campo è vuoto: lavora esclusivamente con gli altri dati disponibili.
-
-REGOLE IMPORTANTI
-
-- Non inventare informazioni.
-- Non trasformare ipotesi in fatti.
-- Non anticipare problemi, bisogni o soluzioni che il cliente non ha espresso.
-- Non presentare elementi negativi, criticità o aspetti migliorabili come argomento di apertura.
-- Non proporre direttamente prodotti o servizi.
-- Non usare linguaggio aggressivo o da venditore.
-- Non spiegare il metodo SLING al venditore.
-- Non descrivere le regole che stai applicando.
-- I pitch devono essere brevi, naturali e orali.
-- Ogni pitch deve avere un punto di partenza diverso.
-- Ogni pitch deve utilizzare il materiale preparato in modo diverso.
-- Ogni pitch deve contenere un vero “non finito”.
-- La chiusura deve portare naturalmente alla possibilità di fare domande, con una formula come:
-  «Se è d'accordo, le faccio qualche domanda?»
-
-FORMATO OBBLIGATORIO
-
-Restituisci ESCLUSIVAMENTE:
-
-PITCH 1
-
-[TESTO DEL PITCH]
-
-PITCH 2
-
-[TESTO DEL PITCH]
-
-PITCH 3
-
-[TESTO DEL PITCH]
-
-Non aggiungere introduzioni, spiegazioni, conclusioni, valutazioni o altre sezioni.`;
-
-const fields = {
-  io: document.getElementById('io'),
-  cliente: document.getElementById('cliente'),
-  contatto: document.getElementById('contatto'),
-  preparato: document.getElementById('preparato')
-};
-const preview = document.getElementById('preview');
+const io = document.getElementById('io');
+const cliente = document.getElementById('cliente');
+const contatto = document.getElementById('contatto');
+const preparato = document.getElementById('preparato');
 const btn = document.getElementById('copyBtn');
 
 function getPrompt() {
   return template
-    .replaceAll('[IO]', fields.io.value.trim())
-    .replaceAll('[POTENZIALE_CLIENTE]', fields.cliente.value.trim())
-    .replaceAll('[PRIMO_CONTATTO]', fields.contatto.value.trim())
-    .replaceAll('[COSA_HO_PREPARATO]', fields.preparato.value.trim());
+    .replace(/\[IO\]/g, io.value.trim())
+    .replace(/\[POTENZIALE_CLIENTE\]/g, cliente.value.trim())
+    .replace(/\[PRIMO_CONTATTO\]/g, contatto.value.trim())
+    .replace(/\[COSA_HO_PREPARATO\]/g, preparato.value.trim());
 }
 
-function refresh() {
-  preview.textContent = getPrompt();
-}
+btn.addEventListener('click', function() {
+  const prompt = getPrompt();
 
-Object.values(fields).forEach(el => el.addEventListener('input', refresh));
+  // Il feedback appare subito, indipendentemente dal risultato della clipboard.
+  btn.textContent = '✓  PROMPT COPIATO';
 
-btn.addEventListener('click', async () => {
-  const p = getPrompt();
-
-  try {
-    await navigator.clipboard.writeText(p);
-  } catch (e) {
-    const t = document.createElement('textarea');
-    t.value = p;
-    document.body.appendChild(t);
-    t.select();
-    document.execCommand('copy');
-    t.remove();
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(prompt).catch(function() {
+      copiaFallback(prompt);
+    });
+  } else {
+    copiaFallback(prompt);
   }
 
-  btn.textContent = '✓  PROMPT COPIATO';
-  setTimeout(() => {
+  setTimeout(function() {
     btn.textContent = '▣  PREPARA E COPIA IL PROMPT';
   }, 1800);
 });
 
-refresh();
+function copiaFallback(text) {
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.left = '-9999px';
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand('copy');
+  document.body.removeChild(area);
+}
 </script>
 </body>
 </html>
